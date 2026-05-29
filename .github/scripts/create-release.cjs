@@ -1,6 +1,6 @@
 const fs = require('fs');
 const https = require('https');
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 
 async function createRelease() {
   try {
@@ -20,7 +20,7 @@ async function createRelease() {
 
     // Check if tag already exists
     try {
-      execSync(`git rev-parse ${tagName}`, { stdio: 'pipe' });
+      execFileSync('git', ['rev-parse', tagName], { stdio: 'pipe' });
       console.log(`Tag ${tagName} already exists, skipping release creation`);
       process.exit(0);
     } catch (e) {
@@ -109,19 +109,16 @@ ${changelogSection}
 
     // Create annotated tag
     const tagMessage = `Release v${version}: ${latest.changes[0] || 'New release'}`;
-    execSync(`git tag -a ${tagName} -m "${tagMessage}"`, { stdio: 'inherit' });
+    execFileSync('git', ['tag', '-a', tagName, '-m', tagMessage], { stdio: 'inherit' });
 
     // Push tag
-    execSync(`git push origin ${tagName}`, { stdio: 'inherit' });
+    execFileSync('git', ['push', 'origin', tagName], { stdio: 'inherit' });
 
     // Create GitHub Release using gh CLI
     const notesFile = '/tmp/release-notes.md';
     fs.writeFileSync(notesFile, releaseNotes);
 
-    execSync(
-      `gh release create ${tagName} --title "KanaDojo v${version}" --notes-file ${notesFile}`,
-      { stdio: 'inherit' }
-    );
+    execFileSync('gh', ['release', 'create', tagName, '--title', `KanaDojo v${version}`, '--notes-file', notesFile], { stdio: 'inherit' });
 
     console.log(`GitHub Release v${version} created successfully!`);
     console.log(`  Version: ${version}`);
