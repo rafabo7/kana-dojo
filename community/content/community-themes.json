@@ -707,6 +707,12 @@
     "backgroundColor": "oklch(20.0% 0.018 210.0 / 1)",
     "mainColor": "oklch(80.0% 0.085 200.0 / 1)",
     "secondaryColor": "oklch(68.0% 0.105 160.0 / 1)"
+  },
+  {
+    "id": "konbini-light",
+    "backgroundColor": "oklch(96.0% 0.015 210.0 / 1)",
+    "mainColor": "oklch(55.0% 0.185 200.0 / 1)",
+    "secondaryColor": "oklch(60.0% 0.155 25.0 / 1)"
   }
 ]
 
